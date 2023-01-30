@@ -54,7 +54,7 @@ const handleScan: BarCodeScannedCallback= ({type, data})=>{
 return (
 
     <View className="w-full h-screen absolute z-10 top-0 bg-pink-500 flex items-center pt-16">
-        {showMatches && <Matches setShowMatches={setShowMatches}/> }
+        {showMatches && <Matches userContext={userContext} setShowMatches={setShowMatches}/> }
         {showScanner && <View className="w-full z-20 h-screen flex items-center absolute top-0 left-0 bg-black">
             <TouchableOpacity onPress={()=>setShowScanner(false)} className="w-16 absolute top-4 right-4 z-20 h-16 flex items-center justify-center">
                 <Text className="text-white text-4xl font-s ">X</Text>
