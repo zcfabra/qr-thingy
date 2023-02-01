@@ -35,13 +35,11 @@ const Chat = ({setShowChats, participants, chat_id, userContext}: ChatProps)=>{
     const queryClient = useQueryClient();
 
     useEffect(()=>{
-        console.log("Yo")
        const socket = new WebSocket(`ws://192.168.2.116:5000/ws/${chat_id}`);
        console.log(socket)
 
        socket.onopen = ()=>{
-        console.log("hi")
-        // socket.send("YAYA")
+        console.log("SOCKET OPEN")
         setSocket(socket);
        }
        socket.onmessage = (e)=>{

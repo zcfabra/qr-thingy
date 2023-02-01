@@ -34,6 +34,7 @@ const Main = ()=>{
   const [userContext, setUserContext] = useState<UserContext>();
   useEffect(()=>{
     (async ()=>{
+      // comment out the deleteItemAsync line to save the data on the phone
       await SecureStore.deleteItemAsync("context");
       const userContext = await SecureStore.getItemAsync("context");
       if (userContext) setUserContext(JSON.parse(userContext));

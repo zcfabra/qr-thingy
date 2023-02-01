@@ -47,7 +47,7 @@ const handleScan: BarCodeScannedCallback= ({type, data})=>{
     setScanned(true);
     console.log("TYPE",type)
     console.log("DATA",data)
-
+    // add some more robust checking here
     if (type == "256"){
         matchMutation.mutate({id_to_lookup: data, user_id: userContext.unique_id, name: userContext.name});
     }

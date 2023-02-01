@@ -28,7 +28,7 @@ const UserInfo = ({userContext, setShowUserInfo}:UserInfoProps)=>{
     const [topInterests, setTopInterests] = useState<{[key:string]: boolean}>({});
     const [preferences, setPreferences] = useState<{nightlife: number, serious:number}>()
     useEffect(()=>{
-        console.log("INTERESTS",topInterests)
+        // console.log("INTERESTS",topInterests)
         // console.log(preferences)
     }, [preferences, topInterests])
 
@@ -36,7 +36,7 @@ const UserInfo = ({userContext, setShowUserInfo}:UserInfoProps)=>{
 
     const handleAddInterest = (interest: string)=>{
         
-        console.log("UU",interest in topInterests, interest);
+        // console.log("Check For Interest",interest in topInterests, interest);
         if (interest in topInterests) {
             // console.log("SHOULD BE HERE")
             setTopInterests(prev=>{
@@ -59,7 +59,7 @@ const UserInfo = ({userContext, setShowUserInfo}:UserInfoProps)=>{
     }
 
     const updateMutation = useMutation(["update"], async (data: {interests: string, nightlife: number, serious:number})=>{
-        console.log("DATA TO SEND", data)
+        // console.log("DATA TO SEND", data)
         const res = await fetch(`http://192.168.2.116:5000/update/${userContext.unique_id}`, {
             method: "POST",
             headers:{

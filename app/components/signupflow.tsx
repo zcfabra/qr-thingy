@@ -21,7 +21,6 @@ const SignupFlow = ({setUserContext}: SignupProps)=>{
     const [topInterests, setTopInterests] = useState<{[key:string]: boolean}>({});
     const handleAddInterest = (interest: string)=>{
         
-        // console.log("UU",interest in topInterests, interest);
         if (interest in topInterests) {
             console.log("SHOULD BE HERE")
             setTopInterests(prev=>{
