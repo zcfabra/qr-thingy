@@ -14,7 +14,7 @@ interface UserScreenProps{
 }
 const UserScreen = ({userContext}: UserScreenProps)=>{
     const [permissions, setPermissions] = useState<boolean>();
-    const [showUserInfo, setShowUserInfo] = useState<boolean>(true);
+    const [showUserInfo, setShowUserInfo] = useState<boolean>(false);
     const [scanned, setScanned] = useState<boolean>(false);
     const [showScanner, setShowScanner] = useState<boolean>(false);
     const [showMatches, setShowMatches] = useState<boolean>(false);

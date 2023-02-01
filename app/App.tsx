@@ -34,7 +34,7 @@ const Main = ()=>{
   const [userContext, setUserContext] = useState<UserContext>();
   useEffect(()=>{
     (async ()=>{
-      // await SecureStore.deleteItemAsync("context");
+      await SecureStore.deleteItemAsync("context");
       const userContext = await SecureStore.getItemAsync("context");
       if (userContext) setUserContext(JSON.parse(userContext));
     })()

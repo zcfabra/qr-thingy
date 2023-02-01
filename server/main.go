@@ -35,8 +35,9 @@ func main() {
 
 	db, err := gorm.Open(sqlite.Open("test.sqlite"), &gorm.Config{})
 
-	// db.Migrator().DropTable(&User{})
-	// db.Migrator().DropTable(&models.MessageObject{})
+	db.Migrator().DropTable(&models.User{})
+	db.Migrator().DropTable(&models.MatchObject{})
+	db.Migrator().DropTable(&models.MessageObject{})
 	db.Migrator().AutoMigrate(&models.MessageObject{})
 	db.Migrator().AutoMigrate(&models.User{})
 	db.Migrator().AutoMigrate(&models.MatchObject{})
@@ -108,6 +109,7 @@ func main() {
 			tx := db.Model(&models.MessageObject{}).Create(&to_insert)
 			if tx.Error != nil {
 				fmt.Println("Failed to add message to DB")
+
 			}
 			fmt.Println(msg_to_create)
 
@@ -171,12 +173,14 @@ func main() {
 		tx := db.Model(&models.MatchObject{}).Where("unique_id = ?", id_to_unmatch).Delete(&deleted)
 		if tx.Error != nil {
 			fmt.Println("Failed to delete match object")
+			return c.SendStatus(500)
 		}
 
 		var chats_to_delete []models.MessageObject
 		tx = db.Model(&models.MessageObject{}).Where("chat_id = ?", deleted.Unique_id).Delete(&chats_to_delete)
 		if tx.Error != nil {
 			fmt.Println("Failed to delete messages ")
+			return c.SendStatus(500)
 		}
 
 		return c.SendStatus(200)
@@ -226,6 +230,28 @@ func main() {
 		return c.SendStatus(200)
 	})
 
+	type UpdateReqObject struct {
+		Interests string  `json:"interests"`
+		Serious   float32 `json:"serious"`
+		Nightlife float32 `json:"nightlife"`
+	}
+	app.Post("/update/:id", func(c *fiber.Ctx) error {
+		id_to_update := c.Params("id")
+		req_obj := &UpdateReqObject{}
+		err := c.BodyParser(&req_obj)
+		if err != nil {
+			fmt.Println("Failed to parse request body")
+			return c.SendStatus(400)
+		}
+		fmt.Println(req_obj)
+		tx := db.Model(&models.User{}).Select("interests", "serious", "nightlife").Where("unique_id = ?", id_to_update).Updates(models.User{Interests: req_obj.Interests, Nightlife: req_obj.Nightlife, Serious: req_obj.Serious})
+		if tx.Error != nil {
+			fmt.Println("Failed to update")
+			return c.SendStatus(500)
+		}
+
+		return c.SendStatus(200)
+	})
 	app.Listen(":5000")
 
 }

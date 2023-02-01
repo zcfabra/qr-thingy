@@ -10,7 +10,7 @@ export interface UserSignupInfo{
     serious: number,
     nightlife:number
 }
-let interests = ["Cooking", "Philosophy", "Coding", "Gym", "Bars", "Jazz", "Gaming", "Fashion", "Guitar", "Violin", "Painting", "Drawing", "Movies", "Art", "Restaurants", "Travel", "Shopping", "Comedy", "Sports"]
+export let interests = ["Cooking", "Philosophy", "Coding", "Gym", "Bars", "Jazz", "Gaming", "Fashion", "Guitar", "Violin", "Painting", "Drawing", "Movies", "Art", "Restaurants", "Travel", "Shopping", "Comedy", "Sports"]
 interests = interests.sort()
 interface SignupProps {
     setUserContext: React.Dispatch<SetStateAction<UserContext | undefined>>
@@ -21,7 +21,7 @@ const SignupFlow = ({setUserContext}: SignupProps)=>{
     const [topInterests, setTopInterests] = useState<{[key:string]: boolean}>({});
     const handleAddInterest = (interest: string)=>{
         
-        console.log("UU",interest in topInterests, interest);
+        // console.log("UU",interest in topInterests, interest);
         if (interest in topInterests) {
             console.log("SHOULD BE HERE")
             setTopInterests(prev=>{
