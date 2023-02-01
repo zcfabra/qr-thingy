@@ -34,7 +34,7 @@ func main() {
 	}
 
 	db, err := gorm.Open(sqlite.Open("test.sqlite"), &gorm.Config{})
-
+	// comment out the drops if you want to persist data each time you run the server
 	db.Migrator().DropTable(&models.User{})
 	db.Migrator().DropTable(&models.MatchObject{})
 	db.Migrator().DropTable(&models.MessageObject{})
