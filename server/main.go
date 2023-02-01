@@ -123,6 +123,14 @@ func main() {
 
 	}))
 
+	app.Get("/matchinfo/:id", func(c *fiber.Ctx) error {
+		to_lookup := c.Params("id")
+		to_ret := &models.UserReqObject{}
+
+		db.Model(&models.User{}).Select("name", "interests", "serious", "nightlife").Where("unique_id = ?", to_lookup).Scan(&to_ret)
+		c.JSON(to_ret)
+		return c.SendStatus(200)
+	})
 	app.Post("/match", func(c *fiber.Ctx) error {
 		unpack := &models.MatchReqObject{}
 		err := c.BodyParser(&unpack)
@@ -152,6 +160,24 @@ func main() {
 		}
 
 		c.JSON(&to_create)
+
+		return c.SendStatus(200)
+	})
+
+	app.Post("/unmatch/:id", func(c *fiber.Ctx) error {
+		id_to_unmatch := c.Params("id")
+		fmt.Println("UNMATCH", id_to_unmatch)
+		deleted := &models.MatchObject{}
+		tx := db.Model(&models.MatchObject{}).Where("unique_id = ?", id_to_unmatch).Delete(&deleted)
+		if tx.Error != nil {
+			fmt.Println("Failed to delete match object")
+		}
+
+		var chats_to_delete []models.MessageObject
+		tx = db.Model(&models.MessageObject{}).Where("chat_id = ?", deleted.Unique_id).Delete(&chats_to_delete)
+		if tx.Error != nil {
+			fmt.Println("Failed to delete messages ")
+		}
 
 		return c.SendStatus(200)
 	})
