@@ -43,7 +43,7 @@ const SignupFlow = ({setUserContext}: SignupProps)=>{
     }
 
     const signupMutation = useMutation(["signup"], async (data:UserSignupInfo)=>{
-        const res = await fetch("http://192.168.2.116:5000/signup", {
+        const res = await fetch(`http://${process.env.URL}:5000/signup`, {
             method: "POST",
             headers:{
                 "Content-Type": "application/json"

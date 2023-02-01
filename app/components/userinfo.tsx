@@ -12,7 +12,7 @@ let myInterests = interests.sort();
 const UserInfo = ({userContext, setShowUserInfo}:UserInfoProps)=>{
     const [edit, setEdit] = useState<boolean>(false);
     const {data} = useQuery(["userInfo"], async ()=>{
-        const res = await fetch(`http://192.168.2.116:5000/matchinfo/${userContext.unique_id}`, {
+        const res = await fetch(`http://${process.env.URL}:5000/matchinfo/${userContext.unique_id}`, {
             method: "GET"
         })
         return await res.json() as {name:string,interests:string,nightlife:number,serious:number};    
@@ -60,7 +60,7 @@ const UserInfo = ({userContext, setShowUserInfo}:UserInfoProps)=>{
 
     const updateMutation = useMutation(["update"], async (data: {interests: string, nightlife: number, serious:number})=>{
         // console.log("DATA TO SEND", data)
-        const res = await fetch(`http://192.168.2.116:5000/update/${userContext.unique_id}`, {
+        const res = await fetch(`http://${process.env.URL}:5000/update/${userContext.unique_id}`, {
             method: "POST",
             headers:{
                 "Content-Type": "application/json",

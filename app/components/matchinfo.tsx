@@ -13,7 +13,7 @@ const MatchInfo = ({their_name, their_id, setShowMatchInfo,setShowChats, match_i
 
     const queryClient = useQueryClient();
     const {data} = useQuery(["matchInfo"], async ()=>{
-        const res = await fetch(`http://192.168.2.116:5000/matchinfo/${their_id}`, {
+        const res = await fetch(`http://${process.env.URL}:5000/matchinfo/${their_id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -26,7 +26,7 @@ const MatchInfo = ({their_name, their_id, setShowMatchInfo,setShowChats, match_i
     const unmatchMutation = useMutation(["unmatch"], async (data:string)=>{
         console.log(data);
 
-        const res = await fetch(`http://192.168.2.116:5000/unmatch/${data}`, {
+        const res = await fetch(`http://${process.env.URL}:5000/unmatch/${data}`, {
             method: "POST",
         });
 

@@ -21,7 +21,7 @@ const Matches = ({setShowMatches, userContext}: MatchProps)=>{
     const [showChats, setShowChats] = useState<boolean>(false);
     const [participants, setParticipants]=useState<{first_uuid: string, second_uuid:string, their_name: string, chat_id:string}|null>(null);
     const {data} = useQuery(["matches"],async(data)=>{
-        const res = await fetch(`http://192.168.2.116:5000/allmatches/${userContext.unique_id}`, {
+        const res = await fetch(`http://${process.env.URL}:5000/allmatches/${userContext.unique_id}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

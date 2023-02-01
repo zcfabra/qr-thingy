@@ -29,13 +29,13 @@ const Chat = ({setShowChats, participants, chat_id, userContext}: ChatProps)=>{
     const [socket,setSocket] = useState<WebSocket>();
     const [chats, setChats] = useState<Message[]>([]);
       const {data} = useQuery(["chats"], async ()=>{
-        const res = await fetch(`http://192.168.2.116:5000/chatmessages/${chat_id}`);
+        const res = await fetch(`http://${process.env.URL}:5000/chatmessages/${chat_id}`);
         return await res.json();
     })
     const queryClient = useQueryClient();
 
     useEffect(()=>{
-       const socket = new WebSocket(`ws://192.168.2.116:5000/ws/${chat_id}`);
+       const socket = new WebSocket(`ws://${process.env.URL}:5000/ws/${chat_id}`);
        console.log(socket)
 
        socket.onopen = ()=>{

@@ -19,7 +19,7 @@ const UserScreen = ({userContext}: UserScreenProps)=>{
     const [showScanner, setShowScanner] = useState<boolean>(false);
     const [showMatches, setShowMatches] = useState<boolean>(false);
     const matchMutation = useMutation(["match"], async (data:{user_id: string, name: string, id_to_lookup: string})=>{
-        const res = await fetch("http://192.168.2.116:5000/match", {
+        const res = await fetch(`http://${process.env.URL}:5000/match`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
