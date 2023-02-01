@@ -31,7 +31,8 @@ const Matches = ({setShowMatches, userContext}: MatchProps)=>{
     },{
         onSuccess(res){
             console.log(res);
-        }
+        },
+        refetchOnWindowFocus: true
     });
     const handleOpenChat = (first_uuid: string,second_uuid:string, their_name:string, chat_id:string)=>{
         setParticipants({first_uuid: first_uuid, second_uuid: second_uuid, their_name: their_name, chat_id: chat_id});
@@ -39,7 +40,7 @@ const Matches = ({setShowMatches, userContext}: MatchProps)=>{
     }
     return (
         <View className="absolute top-0 z-30 w-full h-screen bg-black pt-16 flex items-center">
-            {showChats && participants &&  <Chat chat_id={participants.chat_id} participants={participants!} setShowChats={setShowChats}/>}
+            {showChats && participants &&  <Chat userContext={userContext}chat_id={participants.chat_id} participants={participants!} setShowChats={setShowChats}/>}
             <View className="w-10/12 h-16 flex flex-row items-center justify-between">
                 <Text className="text-3xl font-s text-white">Matches</Text>
                 <TouchableOpacity onPress={()=>setShowMatches(false)} className="w-24 h-8  rounded-md border border-white flex items-center justify-center">
@@ -49,7 +50,7 @@ const Matches = ({setShowMatches, userContext}: MatchProps)=>{
             </View>
             <ScrollView  className="w-full border-t border-gray-500 flex-1 mt-8 ">{
                 data && (data as MatchObject[]).map((i,ix)=>(
-                    <TouchableOpacity onPress={()=>handleOpenChat(i.first_uuid, i.second_uuid, i.first_name == userContext.name ? i.second_name: i.first_name, i.unique_id)}className="w-full h-16 border-b border-gray-500 flex flex-row items-center px-8">
+                    <TouchableOpacity key={ix} onPress={()=>handleOpenChat(i.first_uuid, i.second_uuid, i.first_name == userContext.name ? i.second_name: i.first_name, i.unique_id)}className="w-full h-16 border-b border-gray-500 flex flex-row items-center px-8">
                         {i.first_name != userContext.name && <Text className="text-white text-xl font-s">{i.first_name}</Text>}
                         {i.second_name != userContext.name && <Text className="text-white text-xl font-s">{i.second_name}</Text>}
                     </TouchableOpacity>

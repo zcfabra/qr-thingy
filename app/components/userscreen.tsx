@@ -6,6 +6,7 @@ import { BarCodeScannedCallback, BarCodeScanner } from 'expo-barcode-scanner';
 import { useMutation } from "@tanstack/react-query";
 import { Ionicons } from '@expo/vector-icons'; 
 import Matches from "./matches";
+import UserInfo from "./userinfo";
 
 
 interface UserScreenProps{
@@ -13,6 +14,7 @@ interface UserScreenProps{
 }
 const UserScreen = ({userContext}: UserScreenProps)=>{
     const [permissions, setPermissions] = useState<boolean>();
+    const [showUserInfo, setShowUserInfo] = useState<boolean>(true);
     const [scanned, setScanned] = useState<boolean>(false);
     const [showScanner, setShowScanner] = useState<boolean>(false);
     const [showMatches, setShowMatches] = useState<boolean>(false);
@@ -54,6 +56,7 @@ const handleScan: BarCodeScannedCallback= ({type, data})=>{
 return (
 
     <View className="w-full h-screen absolute z-10 top-0 bg-pink-500 flex items-center pt-16">
+        {showUserInfo && <UserInfo setShowUserInfo={setShowUserInfo} userContext={userContext}/>}
         {showMatches && <Matches userContext={userContext} setShowMatches={setShowMatches}/> }
         {showScanner && <View className="w-full z-20 h-screen flex items-center absolute top-0 left-0 bg-black">
             <TouchableOpacity onPress={()=>setShowScanner(false)} className="w-16 absolute top-4 right-4 z-20 h-16 flex items-center justify-center">
@@ -64,7 +67,7 @@ return (
         <Text className="text-white mb-24 font-s text-2xl">Welcome {userContext.name}</Text>
         <QRCode size={200}  value={userContext.unique_id}></QRCode>
         <View className="w-full mt-auto h-24  flex flex-row items-center justify-center space-x-4">
-            <TouchableOpacity className="w-16 h-16 flex items-center justify-center ">
+            <TouchableOpacity onPress={()=>setShowUserInfo(true)} className="w-16 h-16 flex items-center justify-center ">
                 <Ionicons name="ios-person" size={24} color="white" />            
             </TouchableOpacity>
             <TouchableOpacity className="w-16  h-16 border border-white rounded-[200px] " onPress={()=>setShowScanner(true)}></TouchableOpacity>
